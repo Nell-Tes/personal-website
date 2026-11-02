@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dark only. Palette built from #051747 ink, #081F62 royal, #535F80 slate, #E7E9F0 mist. */
+:root {
+  --bg: 6 12 32;
+  --surface: 11 21 50;
+  --subtle: 14 26 60;
+  --line: 34 48 88;
+  --fg: 231 233 240;
+  --muted: 152 162 191;
+  --brand: 231 233 240;
+  --brand-fg: 5 23 71;
+  --link: 143 170 246;
+  --ok: 74 210 149;
+  color-scheme: dark;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { @apply bg-bg text-fg font-sans antialiased; font-size: 16.5px; line-height: 1.65; }
+  section[id] { scroll-margin-top: 80px; }
+  ::selection { background: rgb(var(--link) / 0.22); }
+  :focus-visible { outline: 2px solid rgb(var(--link)); outline-offset: 3px; border-radius: 6px; }
+  h1, h2, h3 { text-wrap: balance; }
+}
+
+@layer components {
+  .eyebrow { @apply font-mono text-xs uppercase tracking-[0.14em] text-muted; }
+  .card { @apply rounded-xl border border-line bg-surface; }
+  .chip { @apply inline-flex items-center rounded-md border border-line px-2 py-0.5 text-[13px] text-fg/75; }
+  .btn { @apply inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-[15px] font-medium transition-colors duration-200; }
+  .btn-primary { @apply btn bg-brand text-brand-fg hover:opacity-90; }
+  .btn-secondary { @apply btn border border-line bg-surface text-fg hover:border-fg/40; }
+  .link { @apply text-link underline-offset-4 hover:underline; }
+}
+
+/* Scroll reveal: content is visible by default, and only hidden once JS opts in. */
+.js-reveal [data-reveal] { opacity: 0; transform: translateY(14px); transition: opacity .6s cubic-bezier(.2,.8,.2,1), transform .6s cubic-bezier(.2,.8,.2,1); }
+.js-reveal [data-reveal].is-in { opacity: 1; transform: none; }
+
+/* The hero book: a small 3D hardcover that opens to its contents on hover or tap. */
+.book-scene { perspective: 1600px; }
+.book { position: relative; transform-style: preserve-3d; transform: rotateY(-18deg) rotateX(4deg); transition: transform .8s cubic-bezier(.2,.8,.2,1); }
+.book-scene:hover .book, .book-scene.is-open .book, .book-scene:focus-within .book { transform: rotateY(-6deg) rotateX(2deg) translateX(62%); }
+.book-cover { transform-origin: left center; transform-style: preserve-3d; transform: translateZ(3px); transition: transform 1s cubic-bezier(.2,.8,.2,1); }
+.book-scene:hover .book-cover, .book-scene.is-open .book-cover, .book-scene:focus-within .book-cover { transform: translateZ(3px) rotateY(-165deg); }
+.book-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.book-back { transform: rotateY(180deg); }
+.cloth {
+  background:
+    linear-gradient(90deg, rgba(0,0,0,.3), rgba(0,0,0,0) 6%, rgba(255,255,255,.08) 7.5%, rgba(255,255,255,0) 10%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px),
+    radial-gradient(120% 90% at 35% 15%, #13358A, #081F62 55%, #051747);
+}
+.cloth-back {
+  background:
+    linear-gradient(270deg, rgba(0,0,0,.3), rgba(0,0,0,0) 5%),
+    repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 1px, transparent 1px 3px),
+    radial-gradient(120% 90% at 70% 10%, #13358A, #081F62 55%, #051747);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .js-reveal [data-reveal] { opacity: 1; transform: none; }
+}
